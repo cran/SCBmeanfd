@@ -1,0 +1,4 @@
+exportPattern("^[[:alpha:]]+")
+S3method(print,SCBand)
+S3method(summary,SCBand)
+S3method(plot,SCBand)
