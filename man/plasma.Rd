@@ -20,9 +20,10 @@ Hart, T. D. and Wehrly, T. E. (1986). Kernel regression estimation using repeate
 \examples{
 \dontrun{
 data(plasma)
-plot(x = 8:21, y = t(plasma), cex = .75, xlab = "Time of day (hour)", 
-      ylab = "Concentration", main = "Plasma citrate data")
-lines(8:21, colMeans(plasma))
-}
+matplot(x = 8:21, y = t(plasma), cex = .75, type = "l", col = 1, lty = 1,
+  lwd = .5, xlab = "Time of day (hour)", ylab = "Concentration", 
+  main = "Plasma citrate data")
+lines(8:21, colMeans(plasma), col = 2, lwd = 1.5)
+legend("topright", col = 2, lty = 1, lwd = 1.5, legend = "Mean")}
 }
 \keyword{datasets}

@@ -11,8 +11,8 @@ This package implements statistical methods for the mean of functional data base
 \tabular{ll}{
 Package: \tab SCBmeanfd\cr
 Type: \tab Package\cr
-Version: \tab 1.0\cr
-Date: \tab 2013-11-17\cr
+Version: \tab 1.1\cr
+Date: \tab 2014-01-29\cr
 License: \tab GPL-3\cr
 }
 

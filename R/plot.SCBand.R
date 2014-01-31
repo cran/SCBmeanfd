@@ -35,7 +35,7 @@ plot.SCBand <- function(x, y = NULL, xlim = NULL, ylim = NULL, main = NULL,
 	lty <- if (is.null(lty)) 1:(nt-ny) else rep_len(lty,nt-ny)
 	lwd <- if (is.null(lwd)) rep(2,nt-ny) else rep_len(lwd,nt-ny)
 	if (is.null(legend.cex)) legend.cex <- 1
-	legend.pch <- rep(c(pch,NA), c(ny, nt-ny)) 
+	legend.pch <- c(pch,rep(NA,nt-ny)) 
 	legend.lwd <- c(rep(1,ny),lwd)
 	legend.lty <- c(rep(0,ny),lty)
 	col.graph  <- rep(col[(ny+1):nt], rep(c(1,2),c(nt-ny-nband,nband)))
@@ -65,7 +65,7 @@ plot.SCBand <- function(x, y = NULL, xlim = NULL, ylim = NULL, main = NULL,
 		xlim = xlim, ylim = ylim, xlab = xlab, ylab = ylab, main = main, ...)
 	} 
 	if (ny == 1) {
-		matplot(xgrid, if(is.null(y)) t(object$y) else t(y), col = col[1],  pch = pch, 
+		matplot(object$x, if(is.null(y)) t(object$y) else t(y), col = col[1],  pch = pch, 
 		xlim = xlim, ylim = ylim, xlab = xlab, ylab = ylab, cex = cex, main = main, ...)			
 		matlines(xgrid, cbind(object$par, object$nonpar, object$normscb,
 		object$bootscb), col = col.graph, lty = lty.graph, lwd = lwd.graph)			

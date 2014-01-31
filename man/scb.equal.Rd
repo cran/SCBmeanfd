@@ -94,12 +94,13 @@ Degras, D. (2011). Simultaneous confidence bands for nonparametric regression wi
 # for phonemes "aa" as the vowel in "dark" and "ao" 
 # as the first vowel in "water"
 data(phoneme)
-classes <- split(phoneme[,151])
+n <- nrow(phoneme)
+N <- ncol(phoneme) 
+classes <- split(1:n,phoneme[,N])
 names(classes) <- c("sh", "iy", "dcl", "aa", "ao")
-phoneme <- phoneme[,-151]
 freq    <- 1:150
-compare.aa.ao <- scb.equal(freq, list(phoneme[classes["aa"], ], 
-  phoneme[classes["ao"], ]), bandwidth = c(.05, .05), scbtype = "both")
+compare.aa.ao <- scb.equal(freq, list(phoneme[classes$aa,-N], 
+  phoneme[classes$ao,-N]), bandwidth = c(.75, .75), scbtype = "both", nboot = 2e3)
 summary(compare.aa.ao)
 }
 }

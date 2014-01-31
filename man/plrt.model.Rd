@@ -56,18 +56,19 @@ R 	  <- (.25)^2 * exp(20 * log(.9) * abs(outer(x,x,"-"))) # covariance
 eigR <- eigen(R, symmetric = TRUE)  	
 simR <- eigR$vectors \%*\% diag(sqrt(eigR$values)) 	 
 
-n  <- 20  	
+n  <- 20
+set.seed(100)
 y  <- mu + simR \%*\% matrix(rnorm(n*p), p, n) 		
 y  <- t(y) 	
 points(x, colMeans(y))									
 h  <- cv.select(x, y, 1)	
 scb.model(x, y, 1, bandwidth = h)		 # p value: <1e-16
-plrt.model(x, y, 1, verbose = TRUE)	# p value: .648
+plrt.model(x, y, 1, verbose = TRUE)	# p value: .442
 n  <- 100
 y  <- mu + simR \%*\% matrix(rnorm(n*p), p, n) 		
 y  <- t(y) 	
 h  <- cv.select(x, y, 1)	
 scb.model(x, y, 1, bandwidth = h)		 # p value: <1e-16
-plrt.model(x, y, 1, verbose = TRUE)	# p value: .444
+plrt.model(x, y, 1, verbose = TRUE)	# p value: .456
 }
 
