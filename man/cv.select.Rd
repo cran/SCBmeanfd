@@ -8,24 +8,27 @@ Cross-Validation Bandwidth Selection for Local Polynomial Estimation}
 Select the cross-validation bandwidth described in Rice and Silverman (1991) for the local polynomial estimation of a mean function based on functional data. 
 }
 
-\usage{ cv.select(x, y, degree, interval = NULL, ...) }
+\usage{ cv.select(x, y, degree = 1, interval = NULL, gridsize = length(x), ...) }
 
 \arguments{
-  \item{x}{numeric vector of x data. \code{x} must be a uniform grid; missing values are not accepted.
-}
-  \item{y}{
-matrix or data frame with functional observations (= curves) stored in rows. The number of columns of \code{y} must match the length of \code{x}. Missing values are not accepted.}
-  \item{degree}{degree of local polynomial used.}
-  \item{interval}{numeric vector of length 2; the lower and upper bounds of the search interval.}
-  \item{...}{additional arguments to  pass to the optimization function \code{\link[stats]{optimize}}.}
+\item{x}{observation points. Missing values are not accepted.}
+\item{y}{matrix or data frame with functional observations (= curves) stored in rows. The number of columns of \code{y} must match the length of \code{x}. Missing values are not accepted.}
+\item{degree}{degree of the local polynomial fit.}
+\item{interval}{lower and upper bounds of the search interval (numeric vector of length 2).}
+\item{gridsize}{size of evaluation grid for the smoothed data.}  
+\item{...}{additional arguments to  pass to the optimization function \code{\link[stats]{optimize}}.}
 }
 
 \details{
-The cross-validation score is obtained by leaving out one entire curve at a time and computing the prediction error of the local polynomial smoother based on all other curves. For a bandwith value \eqn{h}, this score is 
-\deqn{ S(h) = \sum_{i=1}^n \sum_{j=1}^p \left( Y_{ij} - \hat{\mu}^{-(i)}(t_j;h) \right)^2, }{ \sum_{i,j} ( Yij - mui(tj;h) )^2 }
-where \eqn{Y_{ij}}{Yij} is the measurement of the \eqn{i}-th curve at time \eqn{t_j}{tj}, and \eqn{\hat{\mu}^{-(i)}(t_j;h)}{mui(tj;h)} is the local polynomial estimator with bandwidth \eqn{h} based on all curves except the \eqn{i}-th.
+The cross-validation score is obtained by leaving in turn each curve out and computing the prediction error of the local polynomial smoother based on all other curves. For a bandwith value \eqn{h}, this score is 
+\deqn{ CV(h) = \frac{1}{np} \sum_{i=1}^n \sum_{j=1}^p \left( Y_{ij} - \hat{\mu}^{-(i)}(x_j;h) \right)^2, }{CV(h) =  \sum (Y[ij] - \mu^{-i}(x[j];h))^2 / (n*p)}
+where \eqn{Y_{ij}}{Y[ij]} is the measurement of the \eqn{i}-th curve at location \eqn{x_j}{x[j]} for \eqn{i=1,\ldots,n} and \eqn{j=1,\ldots,p}, and \eqn{\hat{\mu}^{-(i)}(x_j;h)}{\mu^{-i}(x[j];h)} is the local polynomial estimator with bandwidth \eqn{h} based on all curves except the \eqn{i}-th.
 
-\code{cv.select} uses the standard R function \code{\link[stats]{optimize}} to optimize \code{\link{cv.score}}. If the argument \code{interval} is not specified, the lower bound of the search interval is by default \eqn{(x[2] - x[1])/2} if \eqn{degree < 2} and \eqn{x[2] - x[1]} if \eqn{degree >= 2}. The default value of the upper bound is \eqn{(max(x) - min(x))/2}. These values guarantee in most cases that the local polynomial estimator is well defined. It is often useful to plot the function to be optimized for a range of argument values (grid search) before applying a numerical optimizer. In this way, the search interval can be narrowed down and the optimizer is more likely to find a global solution.  
+If the \code{x} values are not equally spaced, the data are first smoothed and evaluated on a grid of length \code{gridsize} spanning the range of \code{x}. The smoothed data are then interpolated back to \code{x}. 
+
+\code{cv.select} uses the standard R function \code{\link[stats]{optimize}} to optimize \code{\link{cv.score}}. If the argument \code{interval} is not specified, the lower bound of the search interval is by default \eqn{(x_2-x_1)/2}{(x[2] - x[1])/2} if \eqn{degree < 2} and \eqn{x_2-x_1}{x[2] - x[1]} if \eqn{degree >= 2}. The default value of the upper bound is \eqn{(\max(x)-\min(x))/2}{(max(x) - min(x))/2}. These values guarantee in most cases that the local polynomial estimator is well defined. It is often useful to plot the function to be optimized for a range of argument values (grid search) before applying a numerical optimizer. In this way, the search interval can be narrowed down and the optimizer is more likely to find a global solution.  
+
+
 }
 
 

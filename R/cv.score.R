@@ -1,19 +1,20 @@
-cv.score <- function(bandwidth, x, y, degree)
+cv.score <- function(bandwidth, x, y, degree=1, gridsize = length(x))
 {
-	spacing <- diff(x)
-	if (any(spacing < 0))
-		stop("'x' must be increasing") 
-	if (!isTRUE(all.equal(min(spacing),max(spacing)))) 
-		stop("'x' must be a uniform grid")		
-	if (nrow(y) < 2)
-		stop("'y' must have at least two rows")
-	if (length(x) != ncol(y)) 
-		stop("length(x) and ncol(y) must be equal")
+	n <- NROW(y)
+	N <- NCOL(y)
+	stopifnot(n > 1)
+	stopifnot(length(x) == N)
+	xgrid <- seq(min(x),max(x),len=gridsize)
+	interpolation.flag <- (gridsize != N && !isTRUE(all.equal(x,xgrid)))
+	
+	y.hat <- if (interpolation.flag) {
+		apply(y, 1, function(z) approx(xgrid, locpoly(x = x, y = z, 
+			bandwidth = bandwidth, gridsize = gridsize)$y, x)$y)
+	} else {
+		apply(y, 1, function(z) locpoly(x = x, y = z, 
+			bandwidth = bandwidth, gridsize = gridsize)$y)
+	}
 
-	n <- nrow(y)
-	N <- ncol(y)
-	y.hat  <- apply(y, 1, function(z) locpoly (x = x, y = z, 
-			  		bandwidth = bandwidth, gridsize = N, degree = degree)$y)
 	mu.hat <- rowMeans(y.hat)
 	residuals <- (n/(n-1)) * mu.hat - y.hat / (n-1) - t(y)
 	mean(residuals^2)

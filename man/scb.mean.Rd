@@ -9,57 +9,48 @@ Build Simultaneous Confidence Bands for Mean Functions
 Fit a local linear estimator and build simultaneous confidence bands (SCB) for the mean of functional data.  
 }
 \usage{
-scb.mean(x, y, bandwidth, level = 0.95, scbtype = c("normal", "bootstrap",
-         "both", "no"), gridsize, keep.y = TRUE, nrep = NULL, nboot = NULL, 
-         parallel = c("no", "multicore", "snow"), ncpus = getOption(
-         "boot.ncpus", 1L), cl = NULL)
+scb.mean(x, y, bandwidth, level = .95, degree = 1, 
+	scbtype = c("normal","bootstrap","both","no"), gridsize = length(x), 
+	keep.y = TRUE, nrep = 2e4, nboot = 5e3, parallel = c("no", "multicore", "snow"), 
+	ncpus = getOption("boot.ncpus",1L), cl = NULL)
 }
 
 
 \arguments{
-  \item{x}{a numeric vector of x data. \code{x} must be a uniform grid; missing values are not accepted.
-}
-  \item{y}{
-a matrix or data frame with functional observations (= curves) stored in rows. The number of columns of \code{y} must match the length of \code{x}. Missing values are not accepted.}
+\item{x}{a numeric vector of x data. Missing values are not accepted.}
+
+\item{y}{a matrix or data frame with functional observations (= curves) stored in rows. The number of columns of \code{y} must match the length of \code{x}. Missing values are not accepted.}
 
 \item{bandwidth}{the kernel bandwidth smoothing parameter.}
 
-\item{level}{
-the level of the simultaneous confidence bands.  
-}
-  \item{scbtype}{
-the type of simultaneous confidence bands to build: "normal", "bootstrap", "both", or "no".   
-}
-  \item{gridsize}{
-the size of the grid used to evaluate the mean function estimates and SCB. Defaults to \emph{length(x)}.}
+\item{level}{the level of the simultaneous confidence bands.}
 
-  \item{keep.y}{logical; if \code{TRUE}, keep \code{y} in the result.  
-}
-  \item{nrep}{
-number of replicates for the Gaussian SCB method (20,000 by default).}
-  \item{nboot}{
-number of replicates for the bootstrap SCB method (5,000 by default).
-}
-  \item{parallel}{
-the computation method for the SCB. By default, computations are sequential (\code{"no"}). The bootstrap method uses function \code{\link[boot]{boot}} and can be run in parallel using the package \code{\link[parallel]{parallel}}. In this case both options \code{"multicore"} and \code{"snow"} are available.
-} 
-\item{ncpus}{
-number of cores to use for parallel computing when \code{parallel = "multicore"}.
-}
-\item{cl}{
-name of the cluster to use for parallel computing when \code{parallel = "snow"}.
-}
+\item{degree}{the degree of the local polynomial fit.}
+
+\item{scbtype}{the type of simultaneous confidence bands to build: "normal", "bootstrap", "both", or "no".}
+
+\item{gridsize}{the size of the grid used to evaluate the mean function estimates and SCB. Defaults to \emph{length(x)}.}
+
+\item{keep.y}{logical; if \code{TRUE}, keep \code{y} in the result.}
+
+\item{nrep}{number of replicates for the Gaussian SCB method (20,000 by default).}
+
+\item{nboot}{number of replicates for the bootstrap SCB method (5,000 by default).}
+
+\item{parallel}{the computation method for the SCB. By default, computations are sequential (\code{"no"}). The bootstrap method uses function \code{\link[boot]{boot}} and can be run in parallel using the package \code{\link[parallel]{parallel}}. In this case both options \code{"multicore"} and \code{"snow"} are available.}
+ 
+\item{ncpus}{number of cores to use for parallel computing when \code{parallel = "multicore"}.}
+\item{cl}{name of the cluster to use for parallel computing when \code{parallel = "snow"}.}
 }
 
 
 \details{
 The local polynomial fitting uses a standard normal kernel and is implemented via the \code{\link[KernSmooth]{locpoly}} function.
-Bootstrap SCB are implemented with the \code{\link[boot]{boot}} function and the 
-typically require more computation time than normal SCB. If parallel computing is used while running R from the console, errors may occur. It may be safer to perform parallel computations using R from the command line. 
+Bootstrap SCB are implemented with the \code{\link[boot]{boot}} function and typically require more computation time than normal SCB.
 }
 
 \value{
-An object of \link[base]{class} \code{"SCBand"}. To accommodate the different functions creating objects of this class (\code{scb.mean}, \code{scb.model}, and \code{scb.equality}), some components of the object are set to \code{NULL}. The component list is:
+An object of \link[base]{class} \code{"SCBand"}. To accommodate the different functions creating objects of this class (\code{\link{scb.mean}}, \code{\link{scb.model}}, and \code{\link{scb.equal}}), some components of the object are set to \code{NULL}. The component list is:
 
 \item{\code{x}}{the x data.}
 \item{\code{y}}{the y data if \code{keep.y} is \code{TRUE}, else \code{NULL}.}

@@ -13,47 +13,32 @@
 }
 
 \arguments{
-  \item{x}{
-a \code{SCBand} object, typically result of a call to \code{scb.mean}, \code{scb.model}, or \code{scb.equal}.}
-  \item{y}{
-optional y data.}
-  \item{xlim}{
-the x limits (x1, x2) of the plot.}
-  \item{ylim}{
-the y limits of the plot. 
-}
-  \item{main}{
-an overall title for the plot.}
-  \item{xlab}{
-a title for the x axis.}
-  \item{ylab}{
-a title for the y axis.}
-  \item{col}{
-the colors for lines and points.}
-  \item{cex}{
-a numerical vector giving the amount by which plotting characters and symbols should be scaled relative to the default.}
-  \item{pch}{
-a vector of plotting characters or symbols: see \code{\link[graphics]{points}}.}
+\item{x}{\code{SCBand} object, typically result of a call to \code{\link{scb.mean}}, \code{\link{scb.model}}, or \code{\link{scb.equal}}.}
+\item{y}{optional y data.}
+\item{xlim}{x limits of the plot (numeric vector of length 2).}
+\item{ylim}{y limits of the plot (numeric vector of length 2).}
+\item{main}{title of the plot.}
+\item{xlab}{label of the x axis.}
+\item{ylab}{label of the y axis.}
+\item{col}{colors for lines and points.}
+\item{cex}{scale of plotting characters and symbols relative to default (numerical vector).}
+\item{pch}{vector of plotting characters or symbols: see \code{\link[graphics]{points}}.}
   \item{lty}{
 a vector of line types, see \code{\link[graphics]{par}}.}
   \item{lwd}{
 a vector of line widths, see \code{\link[graphics]{par}}.
 }
-  \item{legend}{
-logical; if \code{TRUE}, a legend is added to the plot.}
-  \item{where}{
-a character vector indicating the legend location: \code{"bottomright", "bottom"}, 
+  \item{legend}{logical; if \code{TRUE}, a legend is added to the plot.}
+  \item{where}{legend location: \code{"bottomright", "bottom"}, 
 \code{"bottomleft", "left", "topleft", "top", "topright", "right"} 
 or \code{"center"}.}
-  \item{text}{a character vector to appear in the legend.
-}
+  \item{text}{text of the legend (character vector).}
   \item{legend.cex}{
 character expansion factor relative to current par("cex") for the legend. }
   \item{horiz}{
 logical; if TRUE, the legend is displayed horizontally rather than vertically.
 }
-  \item{bty}{
-the type of box to be drawn around the legend. The allowed values are \code{"n"} (the default) and \code{"o"}.}
+  \item{bty}{type of box to be drawn around the legend. The allowed values are \code{"n"} (the default) and \code{"o"}.}
   \item{\dots}{additional arguments passed to the function \code{\link[graphics]{matplot}} for displaying the y data.}
 }
 

@@ -3,57 +3,49 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Goodness-Of-Fit of a Model for the Mean Function}
 \description{
-This is the goodness-of-fit test for parametric models of the mean function described in Degras (2011). The candidate model must be a finite-dimensional function space (multiple linear regression). The test is based on the sup-norm distance between a smoothed parametric estimate and a local linear estimate. Graphically, the candidate model is retained whenever one of the estimates lies within the SCB built around the other.  
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+This is the goodness-of-fit test for parametric models of the mean function described in Degras (2011). The candidate model must be a finite-dimensional function space (curvilinear regression). The test is based on the sup-norm distance between a smoothed parametric estimate and a local linear estimate. Graphically, the candidate model is retained whenever one of the estimates lies within the SCB built around the other.  
 }
 \usage{
-scb.model(x, y, model, bandwidth, level = 0.05, scbtype = c("normal", "bootstrap", 
-          "both", "no"), gridsize, keep.y = TRUE, nrep = NULL, nboot = NULL, 
-          parallel = c("no", "multicore", "snow"), ncpus = getOption(
-          "boot.ncpus", 1L), cl = NULL)
+scb.model(x, y, model, bandwidth, level = .05, degree = 1, 
+	scbtype = c("normal","bootstrap","both","no"), gridsize = length(x), 
+	keep.y = TRUE, nrep = 2e4, nboot = 5e3, parallel = c("no", "multicore", "snow"), 
+	ncpus = getOption("boot.ncpus",1L), cl = NULL)
 }
 
 \arguments{
-   \item{x}{a numeric vector of x data. \code{x} must be a uniform grid; missing values are not accepted.
-}
-  \item{y}{
-a matrix or data frame with functional observations (= curves) stored in rows. The number of columns of \code{y} must match the length of \code{x}. Missing values are not accepted.}
+\item{x}{a numeric vector of x data. \code{x} must be a uniform grid; missing values are not accepted.}
 
-  \item{model}{an integer specifying the degree of a polynomial basis, or a data frame/matrix containing the basis functions stored in columns. In the latter case, the basis functions must be evaluated on a uniform grid of size \code{gridsize} spanning the range of \code{x}.
-}
+\item{y}{a matrix or data frame with functional observations (= curves) stored in rows. The number of columns of \code{y} must match the length of \code{x}. Missing values are not accepted.}
+
+\item{model}{an integer specifying the degree of a polynomial basis, or a data frame/matrix containing the basis functions stored in columns. In the latter case, the basis functions must be evaluated on a uniform grid of size \code{gridsize} spanning the range of \code{x}.}
+  
 \item{bandwidth}{the kernel bandwidth smoothing parameter.}
 
-\item{level}{the significance level of the test (default = .05).
-}
-  \item{scbtype}{
-the type of simultaneous confidence bands to build: "normal", "bootstrap", "both", or "no".   
-}
-  \item{gridsize}{
-the size of the grid over which the mean function is to be estimated. %This grid spans the range of \code{x}. 
-Defaults to the length of \code{x}.}
+\item{level}{the significance level of the test (default = .05).}
 
-\item{keep.y}{logical; if \code{TRUE}, keep \code{y} in the result.  
-}
+\item{degree}{the degree of the local polynomial fit.}
 
-  \item{nrep}{
-the number of replicates for the normal SCB method (default = 20,000).}
-  \item{nboot}{
-the number of replicates for the bootstrap SCB method (default = 5,000).}
-  \item{parallel}{
-the computation method for the bootstrap SCB. By default, computations are sequential (\code{"no"}).\cr The function \code{\link[boot]{boot}} is used and can be run in parallel using the package \code{\link[parallel]{parallel}}.\cr Both options \code{"multicore"} and \code{"snow"} are available for parallel computing.
-} 
-\item{ncpus}{
-the number of cores to use for parallel computing when \code{parallel = "multicore"}. 
-}
-\item{cl}{
-the name of the cluster to use for parallel computing when \code{parallel = "snow"}.}
-}
+\item{scbtype}{the type of simultaneous confidence bands to build: "normal", "bootstrap", "both", or "no".}
+
+\item{gridsize}{the size of the grid over which the mean function is to be estimated. Defaults to \code{length(x)}.}
+
+\item{keep.y}{logical; if \code{TRUE}, keep \code{y} in the result.}
+
+\item{nrep}{the number of replicates for the normal SCB method (default = 20,000).}
+
+\item{nboot}{the number of replicates for the bootstrap SCB method (default = 5,000).}
+
+\item{parallel}{the computation method for the bootstrap SCB. By default, computations are sequential (\code{"no"}).\cr The function \code{\link[boot]{boot}} is used and can be run in parallel using the package \code{\link[parallel]{parallel}}.\cr Both options \code{"multicore"} and \code{"snow"} are available for parallel computing.} 
+
+\item{ncpus}{the number of cores to use for parallel computing when \code{parallel = "multicore"}.}
+
+\item{cl}{the name of the cluster to use for parallel computing when \code{parallel = "snow"}.}}
 
 \value{
-An object of \link[base]{class} \code{"SCBand"}. To accommodate the different functions creating objects of this class (\code{scb.mean}, \code{scb.model}, and \code{scb.equality}), some components of the object are set to \code{NULL}. The component list is:
+An object of \link[base]{class} \code{"SCBand"}. To accommodate the different functions creating objects of this class (\code{\link{scb.mean}}, \code{\link{scb.model}}, and \code{\link{scb.equal}}), some components of the object are set to \code{NULL}. The component list is:
 
 \item{\code{x}}{the argument \code{x}.}
-\item{\code{y}}{ the argument \code{y} if \code{keep.y} is \code{TRUE}, else \code{NULL}.}
+\item{\code{y}}{the argument \code{y} if \code{keep.y} is \code{TRUE}, else \code{NULL}.}
 \item{\code{call}}{the function call.}
 \item{\code{model}}{the argument \code{model}.}  
 \item{\code{par}}{a smoothed parametric estimate.}

@@ -7,22 +7,24 @@ Leave-One-Curve-out Cross-Validation Score
 \description{
 Compute the cross-validation score of Rice and Silverman (1991) for  the local polynomial estimation of a mean function.}
 \usage{
-cv.score(bandwidth, x, y, degree)
+cv.score(bandwidth, x, y, degree = 1, gridsize = length(x))
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{bandwidth}{
-the kernel bandwidth smoothing parameter.}
-  \item{x}{
-numeric vector of x data. This observation grid must be uniform and missing values are not accepted.}
-  \item{y}{
-matrix or data frame with functional observations (= curves) stored in rows. The number of columns of \code{y} must match the length of \code{x}. Missing values are not accepted.}
-  \item{degree}{degree of local polynomial used.}
+\item{bandwidth}{kernel bandwidth.}
+\item{x}{observation points. Missing values are not accepted.}
+\item{y}{matrix or data frame with functional observations (= curves) stored in rows. The number of columns of \code{y} must match the length of \code{x}. Missing values are not accepted.}
+\item{degree}{degree of the local polynomial fit.}
+\item{gridsize}{size of evaluation grid for the smoothed data.}  
 }
+
 \details{
-The cross-validation score is obtained by leaving out one curve at a time and computing the prediction error of the local polynomial smoother based on all other curves. For a bandwith value \eqn{h}, this score is 
-\deqn{ S(h) = \frac{1}{np} \sum_{i=1}^n \sum_{j=1}^p \left( Y_{ij} - \hat{\mu}^{-(i)}(t_j;h) \right)^2, }{S(h) =  \sum_{i,j} ( Y_{ij} - mu_i(t_j;h) )^2 / (n*p)}
-where \eqn{Y_{ij}}{Y_{ij}} is the measurement of the \eqn{i}-th curve at time \eqn{t_j}{t_j} for \eqn{i=1,\ldots,n} and \eqn{j=1,\ldots,p}, and \eqn{\hat{\mu}^{-(i)}(t_j;h)}{mu_i(t_j;h)} is the local polynomial estimator with bandwidth \eqn{h} based on all curves except the \eqn{i}-th.}
+The cross-validation score is obtained by leaving in turn each curve out and computing the prediction error of the local polynomial smoother based on all other curves. For a bandwith value \eqn{h}, this score is 
+\deqn{ CV(h) = \frac{1}{np} \sum_{i=1}^n \sum_{j=1}^p \left( Y_{ij} - \hat{\mu}^{-(i)}(x_j;h) \right)^2, }{CV(h) =  \sum (Y[ij] - \mu^{-i}(x[j];h))^2 / (n*p)}
+where \eqn{Y_{ij}}{Y[ij]} is the measurement of the \eqn{i}-th curve at location \eqn{x_j}{x[j]} for \eqn{i=1,\ldots,n} and \eqn{j=1,\ldots,p}, and \eqn{\hat{\mu}^{-(i)}(x_j;h)}{\mu^{-i}(x[j];h)} is the local polynomial estimator with bandwidth \eqn{h} based on all curves except the \eqn{i}-th.
+
+If the \code{x} values are not equally spaced, the data are first smoothed and evaluated on a grid of length \code{gridsize} spanning the range of \code{x}. The smoothed data are then interpolated back to \code{x}. 
+}
 
 \value{the cross-validation score.}
 

@@ -25,7 +25,7 @@ Code \tab Phoneme \cr
 This dataset was created by the STAPH group in Toulouse, France\cr
 \url{http://www.math.univ-toulouse.fr/staph/npfda/}.\cr
 The larger original dataset can be found at\cr
-\url{http://www-stat.stanford.edu/ElemStatLearn}.
+\url{http://statweb.stanford.edu/~tibs/ElemStatLearn/}.
 }
 
 \examples{

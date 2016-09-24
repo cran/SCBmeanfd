@@ -9,7 +9,7 @@ Select the plug-in bandwidth described in Benhenni and Degras (2011) for the loc
 }
 
 \usage{
-plugin.select(x, y, drv = 0L, degree = drv + 1L)
+plugin.select(x, y, drv = 0L, degree = drv+1L, gridsize = length(x), ...) 
 }
 
 \arguments{
@@ -21,11 +21,16 @@ matrix or data frame with functional observations (= curves) stored in rows. The
 }
   \item{degree}{degree of local polynomial used. Must equal \code{drv} or \code{drv+1}.
 }
+ \item{gridsize}{
+the size of the grid over which the mean function is to be estimated.  
+Defaults to \code{length(x)}.
+}
+\item{...}{additional arguments to pass to the optimizer of the CV score.}
 }
 
 \details{
-The plug-in method should not be used with small data sets, since it is based on asymptotic considerations and requires reasonably accurate estimates of derivatives of the mean and covariance functions. Both the number of observed curves and observation points should be moderate to large. The plug-in bandwidth is designed to minimize the asymptotic mean integrated  squared estimation error \deqn{AMISE(h) = \int (\mu(x) - \hat{\mu}(x; h))^2 dx,}{AMISE(h) = integral of (mu(x) - mu.hat(x;h))^2,} 
-where \eqn{\mu(x)}{mu(x)} is the mean function and \eqn{\hat{\mu}(x;h)}{mu.hat(x;h)} is a local polynomial estimator with kernel bandwidth \eqn{h}. The expression of the plug-in bandwidth can be found in Benhenni and Degras (2011).}
+The plug-in method should not be used with small data sets, since it is based on asymptotic considerations and requires reasonably accurate estimates of derivatives of the mean and covariance functions. Both the number of observed curves and observation points should be moderate to large. The plug-in bandwidth is designed to minimize the asymptotic mean integrated  squared estimation error \deqn{AMISE(h) = \int (\mu(t) - \hat{\mu}(t; h))^2 dt,}{AMISE(h) = integral of (\mu(t) - \mu.hat(t;h))^2,} 
+where \eqn{\mu(x)}{\mu(t)} is the mean function and \eqn{\hat{\mu}(t;h)}{mu.hat(t;h)} is a local polynomial estimator with kernel bandwidth \eqn{h}. The expression of the plug-in bandwidth can be found in Benhenni and Degras (2011).}
 
 \value{
 the plug-in bandwidth.}
