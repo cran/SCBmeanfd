@@ -4,7 +4,6 @@ scb.model <- function(x, y, model, bandwidth, level = .05, degree = 1,
 	ncpus = getOption("boot.ncpus",1L), cl = NULL)
 {
 	caLL <- match.call()
-	degree <- 1
 	stopifnot(all(!is.na(x) & !is.na(y)))
 	stopifnot(length(x) == ncol(y)) 
 	stopifnot(NROW(model) %in% c(1,length(x))) 
@@ -25,27 +24,27 @@ scb.model <- function(x, y, model, bandwidth, level = .05, degree = 1,
 		par.mu.hat <- rowMeans(fitted(par.y.hat))	
 	}
 	smooth.par.mu.hat <- locpoly(x, par.mu.hat, degree = degree, 
-						   	bandwidth = bandwidth, gridsize = gridsize)$y
+		bandwidth = bandwidth, gridsize = gridsize)$y
 	nonpar.mu.hat <- locpoly(x, colMeans(y), degree = degree, 
-							bandwidth = bandwidth, gridsize = gridsize)$y
-	smooth.res <- apply(par.res, 2, function(z) locpoly(x, z, degree = 
-					degree, bandwidth = bandwidth, gridsize = gridsize)$y)
+		bandwidth = bandwidth, gridsize = gridsize)$y
+	r <- apply(par.res, 2, function(z) locpoly(x, z, degree = degree, 
+		bandwidth = bandwidth, gridsize = gridsize)$y)
 
-	r <- rowMeans(smooth.res)
-	smooth.res <- smooth.res - r
-	sigma.hat <- sqrt(rowSums(smooth.res^2) / (n-1))
+	rbar <- rowMeans(r)
+	r <- r - rbar
+	sigma.hat <- sqrt(rowSums(r^2) / (n-1))
 	se <- sigma.hat / sqrt(n)
-	test.stat <- max(abs(r / se))
+	test.stat <- max(abs(rbar/se))
 	p.norm = p.boot = NULL
 	q.norm = q.boot = NULL
 	lb.norm = ub.norm = lb.boot = ub.boot = NULL
 	scbtype <- match.arg(scbtype)	
 
 	if (scbtype %in% c("normal","both")) {
-		svd.sr <- svd(smooth.res / (sigma.hat * sqrt(n-1)), nv = 0)
-		ncomp <- which.max(cumsum(svd.sr$d^2) > .99 * sum(svd.sr$d^2))
+		svd.r <- svd(r / (sigma.hat * sqrt(n-1)), nv = 0)
+		ncomp <- which.max(cumsum(svd.r$d^2) > .99 * sum(svd.r$d^2))
 		vars <- matrix(rnorm(ncomp * nrep), ncomp, nrep)
-		M <- svd.sr$u[,1:ncomp] * rep(svd.sr$d[1:ncomp], each = gridsize)
+		M <- t(t(svd.r$u[,1:ncomp]) * svd.r$d[1:ncomp])
 		supnorm <- apply(abs(M %*% vars), 2, max)
 		p.norm <- 1 - ecdf(supnorm)(test.stat)
 		q.norm <- as.numeric(quantile(supnorm,1-level)) 
@@ -56,9 +55,9 @@ scb.model <- function(x, y, model, bandwidth, level = .05, degree = 1,
 	if (scbtype %in% c("bootstrap","both")) {
 		boot.stat <- function(mat,ix) {
 			e.boot <- colMeans(mat[ix,])
-			sqrt(max(((n-1)*e.boot^2)/(colSums(mat[ix,]^2)-n*e.boot^2)) * n)
+			sqrt((n-1) * max((e.boot^2)/(colSums(mat[ix,]^2)-n*e.boot^2)) * n)
 		}
-		supnorm <- boot(t(smooth.res), boot.stat, nboot, 
+		supnorm <- boot(t(r), boot.stat, nboot, 
 			parallel = parallel, ncpus = ncpus, cl = cl)$t 
 		p.boot <- 1 - ecdf(supnorm)(test.stat)
 		q.boot <- as.numeric(quantile(supnorm,1-level))

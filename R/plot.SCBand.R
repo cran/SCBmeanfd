@@ -43,15 +43,15 @@ plot.SCBand <- function(x, y = NULL, xlim = NULL, ylim = NULL, main = NULL,
 	lwd.graph  <- rep(lwd, rep(c(1,2),c(nt-ny-nband,nband)))	
 
 	if (is.null(main)) {
-		if(npar) {
+		if (npar) {
 			main1 <- "Diagnostic for the mean function"
-			if(object$model == 0) { 
-				main2 <- "Model: no regression effect"
-			} else if (object$model == 1) { 
-				main2 <- "Model: linear regression" 
+			if(length(object$model) == 1 && object$model == 0) { 
+				main2 <- "Model: zero function"
+			} else if (length(object$model) == 1 && object$model == 1) { 
+				main2 <- "Model: linear function" 
 			} else if (length(object$model) == 1) { 
-				main2 <- paste("Model: polynomial regression of degree",object$model) 
-			} else main2 <- paste("Model of dimension", ncol(object$model))
+				main2 <- paste("Model: polynomial function of degree",object$model) 
+			} else main2 <- paste("Model: basis function set of dimension", ncol(object$model))
 			main <- paste(main1,"\n", main2, sep="")	
 		} else if (nnonpar == 2) {
 			main = "Comparison of two mean functions"	
