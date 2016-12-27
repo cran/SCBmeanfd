@@ -1,6 +1,6 @@
-07b92a39570addc0b433c09d4c20d88c *DESCRIPTION
+4c5846829fa77aa1d588790cd4e249fa *DESCRIPTION
 d103eb42b602ae69892317e39dc29f8c *NAMESPACE
-2598312ec40b0bad79ddf31a8bc64b69 *NEWS
+82209c6157988174d5435eccff770d69 *NEWS
 8e5fb768a48cc8a653b863d1f8b8e2c9 *R/SCBmeanfd-internal.R
 f20a3c49748bda5c9d6d31d6fe364a4c *R/cv.score.R
 33e132ce2b131768dc1354a488364fbd *R/cv.select.R
@@ -8,7 +8,7 @@ dbb83b8f64e30f188f6563eac235cb91 *R/plot.SCBand.R
 83ae2de667d60a274dbef6bb0aca7f2c *R/plrt.model.R
 4021a9aefa336089ae65e45f8ef5aaee *R/plugin.select.R
 07a90446f19c15f0fea78ce3d22ca1cc *R/print.SCBand.R
-64de99e2489651efd647ab923b554ba6 *R/scb.equal.R
+406946cf8a403680b62983a908b86e90 *R/scb.equal.R
 77874a30ea13e8cc1fb5bcacd7dc5aa7 *R/scb.mean.R
 0f696f7153172d99dd4757d81f21c2b6 *R/scb.model.R
 044dd3f43ee158af186592f559737354 *R/summary.SCBand.R

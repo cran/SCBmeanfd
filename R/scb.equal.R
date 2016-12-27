@@ -21,7 +21,6 @@ scb.equal <- function(x, y, bandwidth, level = .05, degree = 1,
 	y2 <- y[[2]]
 	if (length(x1) != ncol(y1) || length(x2) != ncol(y2))
 		stop("The dimensions of x and y do not match in at least one sample") 
-	if (any)
 	if (is.null(gridsize))
 		gridsize <- min(length(x1),length(x2))
 		

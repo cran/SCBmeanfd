@@ -1,3 +1,6 @@
+Version 1.2.2
+* Bug fixed in scb.equal
+
 Version 1.2
 * Non-uniform x values are now accepted in functions scb.mean, scb.equal, and scb.model. 
 * New "degree" argument in functions scb.mean, scb.equal, and scb.model (degree of local polynomial fit).
